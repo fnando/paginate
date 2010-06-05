@@ -34,6 +34,17 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support.}
+  s.test_files = [
+    "test/paginate/action_view_test.rb",
+     "test/paginate/active_record_test.rb",
+     "test/paginate/base_test.rb",
+     "test/paginate/config_test.rb",
+     "test/paginate/renderer_test.rb",
+     "test/resources/controller.rb",
+     "test/resources/model.rb",
+     "test/resources/schema.rb",
+     "test/test_helper.rb"
+  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
