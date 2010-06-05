@@ -46,19 +46,19 @@ module Paginate
 
       # Previous page
       if processor.previous_page?
-        html << %[<li><a class="previous-page" href="#{previous_url}" title="#{previous_label}">#{previous_label}</a></li>]
+        html << %[<li class="previous-page"><a href="#{previous_url}" title="#{previous_label}">#{previous_label}</a></li>]
       else
-        html << %[<li><span class="previous-page disabled" title="#{previous_label}">#{previous_label}</span></li>]
+        html << %[<li class="previous-page disabled"><span title="#{previous_label}">#{previous_label}</span></li>]
       end
 
       # Current page
-      html << %[<li><span class="page">#{page_label}</span></li>]
+      html << %[<li class="page"><span>#{page_label}</span></li>]
 
       # Next page
       if processor.next_page?
-        html << %[<li><a class="next-page" href="#{next_url}" title="#{next_label}">#{next_label}</a></li>]
+        html << %[<li class="next-page"><a href="#{next_url}" title="#{next_label}">#{next_label}</a></li>]
       else
-        html << %[<li><span class="next-page disabled" title="#{next_label}">#{next_label}</span></li>]
+        html << %[<li class="next-page disabled"><span title="#{next_label}">#{next_label}</span></li>]
       end
 
       html << %[</ul>]

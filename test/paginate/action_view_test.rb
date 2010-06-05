@@ -42,7 +42,7 @@ class ActionViewTest < Test::Unit::TestCase
   def test_display_next_page_link
     @request.fullpath = "/some/path?page=1"
     html = render(:default, Array.new(11))
-    link = html.css("li > a.next-page").first
+    link = html.css("li.next-page > a").first
 
     assert_not_nil link
     assert_equal "/some/path?page=2", link["href"]
@@ -52,7 +52,7 @@ class ActionViewTest < Test::Unit::TestCase
   def test_display_next_page_link_from_block
     @request.fullpath = "/some/path?page=1"
     html = render(:block_as_url, Array.new(11))
-    link = html.css("li > a.next-page").first
+    link = html.css("li.next-page > a").first
 
     assert_not_nil link
     assert_equal "/some/path/2", link["href"]
@@ -63,7 +63,7 @@ class ActionViewTest < Test::Unit::TestCase
     @params[:page] = 2
     @request.fullpath = "/some/path?page=2"
     html = render(:default, Array.new(11))
-    link = html.css("li > a.previous-page").first
+    link = html.css("li.previous-page > a").first
 
     assert_not_nil link
     assert_equal "/some/path?page=1", link["href"]
@@ -73,8 +73,8 @@ class ActionViewTest < Test::Unit::TestCase
   def test_display_next_page_as_disabled
     @request.fullpath = "/some/path?page=1"
     html = render(:default, Array.new(10))
-    link = html.css("li > a.next-page").first
-    span = html.css("li > span.next-page.disabled").first
+    link = html.css("li.next-page > a").first
+    span = html.css("li.next-page.disabled > span").first
 
     assert_nil link
     assert_not_nil span
@@ -84,8 +84,8 @@ class ActionViewTest < Test::Unit::TestCase
   def test_display_previous_page_as_disabled
     @request.fullpath = "/some/path?page=1"
     html = render(:default, Array.new(10))
-    link = html.css("li > a.previous-page").first
-    span = html.css("li > span.previous-page.disabled").first
+    link = html.css("li.previous-page > a").first
+    span = html.css("li.previous-page.disabled > span").first
 
     assert_nil link
     assert_not_nil span
@@ -96,7 +96,7 @@ class ActionViewTest < Test::Unit::TestCase
     @params[:page] = 10
     @request.fullpath = "/some/path?page=10"
     html = render(:default, [])
-    span = html.css("li > span.page").first
+    span = html.css("li.page > span").first
 
     assert_not_nil span
     assert_equal "Page 10", span.text
@@ -109,9 +109,9 @@ class ActionViewTest < Test::Unit::TestCase
     @request.fullpath = "/some/path?page=10"
     html = render(:default, Array.new(11))
 
-    assert_equal "Página 10", html.css("span.page").text
-    assert_equal "Próxima página", html.css("a.next-page").text
-    assert_equal "Página anterior", html.css("a.previous-page").text
+    assert_equal "Página 10", html.css("li.page > span").text
+    assert_equal "Próxima página", html.css("li.next-page > a").text
+    assert_equal "Página anterior", html.css("li.previous-page > a").text
   end
 
   def test_iterate

@@ -63,6 +63,16 @@ If you want to translate links, you have implement the following scopes:
       previous: "Newer"
       page: "Page {{page}}"
 
+== Styling
+
+If you want something like Twitter Search use this CSS:
+
+  .paginate { overflow: hidden; }
+  .paginate li { float: left; }
+  .paginate li.previous-page:after { content: "«"; padding: 0 5px; }
+  .paginate li.next-page:before { content: "»"; padding: 0 5px; }
+  .paginate .disabled { display: none; }
+
 == License
 
 (The MIT License)
