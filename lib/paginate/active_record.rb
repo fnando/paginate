@@ -1,0 +1,1 @@
+require "paginate/active_record/ext" if defined?(ActiveRecord)

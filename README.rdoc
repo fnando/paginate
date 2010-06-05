@@ -1,0 +1,78 @@
+= Paginate
+
+Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support.
+
+== Install
+
+  sudo gem install paginate
+
+== Usage
+
+You can use Paginate with or without ActiveRecord. Let's try a simple array pagination. Imagine that you have something like this in your controller.
+
+  @things = Array.new(11) {|i| "Item #{i}"}
+
+Then on your view:
+
+  <%= paginate @things %>
+
+That's it! This is all you have to do! In this case we're using the default page size (which is 10).
+The url used on page links is taken from the current requested uri.
+
+You can set default values globally:
+
+  Paginate.setup do |config|
+    config.size = 20
+    config.param_name = :p
+  end
+
+More examples:
+
+  Post.paginate(1)                               # page 1 from Post model
+  Post.paginate(:page => 1)                      # page 1 from Post model
+  Post.paginate(:page => 1, :size => 5)          # page 1 from Post model with custom size
+  @user.things.paginate(:page => params[:page])  # paginate association
+
+  <%= paginate @things, :size => 5 %>
+  <%= paginate @things, :url => proc {|page| things_path(:page => page) } %>
+  <%= paginate @things, "/some/path" %>
+  <%= paginate @things, :param_name => :p %>
+
+To iterate the collection, you must use a helper called <tt>iterate</tt>. This is required cause we're always considering SIZE + 1, so if you use the regular +each+ you end up rendering one additional item.
+
+  <% iterate @things do |thing| %>
+  <% end %>
+
+If you want the iteration index, you can expect it as a second block parameter.
+
+  <% iterate @things do |thing, i| %>
+  <% end %>
+
+And if you're using some custom page size, you have to specify it as well.
+
+  <% iterate @things, :size => 5 do |thing| %>
+  <% end %>
+
+== I18n support
+
+If you want to translate links, you have implement the following scopes:
+
+  en:
+    paginate:
+      next: "Older"
+      previous: "Newer"
+      page: "Page {{page}}"
+
+== License
+
+(The MIT License)
+
+Copyright © 2010:
+
+* Nando Vieira - http://simplesideias.com.br
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
