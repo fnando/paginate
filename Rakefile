@@ -1,5 +1,5 @@
 require "rake/testtask"
-require "lib/paginate/version"
+require "./lib/paginate/version"
 
 Rake::TestTask.new do |t|
   t.libs += %w[ test lib ]
