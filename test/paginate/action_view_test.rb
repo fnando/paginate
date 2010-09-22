@@ -60,11 +60,12 @@ class ActionViewTest < Test::Unit::TestCase
   end
 
   def test_display_previous_page_link
+    $DEBUG = 1
     @params[:page] = 2
     @request.fullpath = "/some/path?page=2"
     html = render(:default, Array.new(11))
     link = html.css("li.previous-page > a").first
-
+    $DEBUG = 0
     assert_not_nil link
     assert_equal "/some/path?page=1", link["href"]
     assert_equal "Previous page", link.text
@@ -123,6 +124,17 @@ class ActionViewTest < Test::Unit::TestCase
     end
 
     assert_equal items[0, 10], values
+  end
+
+  def test_iterate_with_fewer_records
+    values = []
+    items = Array.new(8) {|i| "User#{i}" }
+
+    @helper.iterate items do |item|
+      values << item
+    end
+
+    assert_equal items[0, 8], values
   end
 
   def test_iterate_with_index

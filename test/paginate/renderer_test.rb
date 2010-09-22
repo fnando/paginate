@@ -33,4 +33,39 @@ class RendererTest < Test::Unit::TestCase
 
     @renderer.render
   end
+
+  def test_simple_url
+    @renderer.options[:url] = "/some/path"
+    assert_equal "/some/path?page=1", @renderer.url_for(1)
+  end
+
+  def test_simple_url_with_page_param
+    @renderer.options[:url] = "/some/path?page=3"
+    assert_equal "/some/path?page=1", @renderer.url_for(1)
+  end
+
+  def test_simple_url_with_page_as_first_param
+    @renderer.options[:url] = "/some/path?page=3&a=1&b=2&c=3"
+    assert_equal "/some/path?a=1&amp;b=2&amp;c=3&amp;page=1", @renderer.url_for(1)
+  end
+
+  def test_simple_url_with_page_as_last_param
+    @renderer.options[:url] = "/some/path?a=1&b=2&c=3&page=3"
+    assert_equal "/some/path?a=1&amp;b=2&amp;c=3&amp;page=1", @renderer.url_for(1)
+  end
+
+  def test_simple_url_with_page_param_in_the_middle
+    @renderer.options[:url] = "/some/path?a=1&b=2&page=3&c=3"
+    assert_equal "/some/path?a=1&amp;b=2&amp;c=3&amp;page=1", @renderer.url_for(1)
+  end
+
+  def test_simple_url_with_page_as_text
+    @renderer.options[:url] = "/some/path?a=1&b=2&c=3&page=abc"
+    assert_equal "/some/path?a=1&amp;b=2&amp;c=3&amp;page=1", @renderer.url_for(1)
+  end
+
+  def test_escape_url_from_blocks
+    @renderer.options[:url] = proc {|page| "/some/path/#{page}?a=1&b=2"}
+    assert_equal "/some/path/1?a=1&amp;b=2", @renderer.url_for(1)
+  end
 end

@@ -16,19 +16,23 @@ module Paginate
     def url_for(page)
       url = options[:url] || options[:fullpath]
 
-      if url.kind_of?(Proc)
-        url[page]
+      if url.respond_to?(:call)
+        url = url.call(page).to_s.dup
       else
-        re = Regexp.new("([&?])#{Regexp.escape(options[:param_name].to_s)}=[0-9]+")
+        url = url.dup
+
+        re = Regexp.new("([&?])#{Regexp.escape(options[:param_name].to_s)}=[^&]*")
         url.gsub!(re, "\\1")
-        url.gsub!(/\?$/, "")
+        url.gsub!(/[\?&]$/, "")
+        url.gsub!(/&+/, "&")
         url.gsub!(/\?&/, "?")
-        url = URI.parse(url).to_s
 
-        connector = (url =~ /\?/) ? "&amp;" : "?"
-
-        url + connector + page.to_s.to_query(options[:param_name])
+        url << (url =~ /\?/ ? "&" : "?")
+        url << page.to_query(options[:param_name])
       end
+
+      url.gsub!(/&/, "&amp;")
+      url
     end
 
     def render
