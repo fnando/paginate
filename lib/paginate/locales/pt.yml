@@ -2,7 +2,7 @@ pt: &pt
   paginate:
     next: "Próxima página"
     previous: "Página anterior"
-    page: "Página {{page}}"
+    page: "Página %{page}"
 
 pt-BR:
   <<: *pt

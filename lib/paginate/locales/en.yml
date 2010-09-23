@@ -2,4 +2,4 @@ en:
   paginate:
     next: "Next page"
     previous: "Previous page"
-    page: "Page {{page}}"
+    page: "Page %{page}"
