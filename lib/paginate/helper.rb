@@ -32,9 +32,8 @@ module Paginate
       Paginate::Renderer.new(options).render
     end
 
-    # In order to iterate the correct items you have to skip the latest collection's item.
-    # We added this helper to automatically skip the latest item only if there's a next page,
-    # which means that we have an extra item.
+    # In order to iterate the correct items you have to skip the last collection's item.
+    # We added this helper to automatically skip the last item only if there's a next page.
     #
     #   <% iterate @items do |item| %>
     #   <% end %>
@@ -44,7 +43,6 @@ module Paginate
     #   <% iterate @items do |item, i|
     #   <% end %>
     #
-    #
     # If you set a custom size while fetching items from database, you need to inform it while iterating.
     #
     #   @items = Item.paginate(:page => 1, :size => 5)
@@ -52,6 +50,11 @@ module Paginate
     # Then in your view:
     #
     #   <% iterate @items, :size => 5 do |item| %>
+    #   <% end %>
+    #
+    # You can receive the iteration counter by expecting two arguments.
+    #
+    #   <% iterate @items do |item, i| do %>
     #   <% end %>
     #
     def iterate(collection, options = {}, &block)
