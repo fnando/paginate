@@ -34,16 +34,16 @@ describe Paginate::Base do
 
   it "should return offset from configuration" do
     Paginate::Config.size = 15
-    Paginate::Base.new(:page => 2).offset.should == 16
+    Paginate::Base.new(:page => 2).offset.should == 15
   end
 
   it "should return offset from options" do
-    Paginate::Base.new(:page => 2, :size => 5).offset.should == 6
+    Paginate::Base.new(:page => 2, :size => 5).offset.should == 5
   end
 
   it "should return finder options" do
     actual = Paginate::Base.new(:page => 3, :size => 5).to_options
-    expected = {:limit => 6, :offset => 12}
+    expected = {:limit => 6, :offset => 10}
 
     actual.should == expected
   end

@@ -29,7 +29,7 @@ module Paginate
     end
 
     def offset
-      (page - 1) * limit
+      (page - 1) * (limit - 1)
     end
 
     def limit

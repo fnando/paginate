@@ -2,6 +2,8 @@
 
 Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support.
 
+Works only with <b>Rails 3+</b>.
+
 == Install
 
   sudo gem install paginate
