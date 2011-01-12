@@ -59,10 +59,9 @@ module Paginate
     #
     def iterate(collection, options = {}, &block)
       options.reverse_merge!(:size => Paginate::Config.size)
-      block_arity = block.arity
 
       collection[0, options[:size]].each_with_index do |item, i|
-        if block_arity == 1
+        if block.arity == 1
           yield item
         else
           yield item, i

@@ -67,11 +67,7 @@ module Paginate
 
       html << %[</ul>]
 
-      if html.respond_to?(:html_safe)
-        html.html_safe
-      else
-        html
-      end
+      html.html_safe
     end
   end
 end

@@ -1,8 +1,11 @@
-pt: &pt
+en:
+  paginate:
+    next: "Next page"
+    previous: "Previous page"
+    page: "Page %{page}"
+
+pt-BR:
   paginate:
     next: "Próxima página"
     previous: "Página anterior"
     page: "Página %{page}"
-
-pt-BR:
-  <<: *pt

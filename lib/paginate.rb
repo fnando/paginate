@@ -1,12 +1,11 @@
 require "i18n"
+require "active_record"
 require "paginate/base"
 require "paginate/config"
 require "paginate/helper"
 require "paginate/renderer"
 require "paginate/active_record"
 require "paginate/action_controller"
-
-I18n.load_path += Dir[File.dirname(__FILE__) + "/paginate/locales/**/*.yml"]
 
 module Paginate
   def self.setup(&block)

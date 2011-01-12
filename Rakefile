@@ -1,6 +1,7 @@
-require "rake/testtask"
-require "./lib/paginate/version"
+require "bundler"
+Bundler::GemHelper.install_tasks
 
+require "rake/testtask"
 Rake::TestTask.new do |t|
   t.libs += %w[ test lib ]
   t.test_files = FileList["test/**/*_test.rb"]
@@ -8,20 +9,5 @@ Rake::TestTask.new do |t|
   t.ruby_opts = %w[ -rubygems ]
 end
 
-begin
-  require "jeweler"
-
-  Jeweler::Tasks.new do |gem|
-    gem.name = "paginate"
-    gem.version = Paginate::Version::STRING
-    gem.summary = "Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support."
-    gem.email = "fnando.vieira@gmail.com"
-    gem.homepage = "http://github.com/fnando/paginate"
-    gem.authors = ["Nando Vieira"]
-    gem.files = FileList["lib/**/*", "Rakefile", "README.rdoc"]
-  end
-
-  Jeweler::GemcutterTasks.new
-rescue LoadError => e
-  puts "You don't have Jeweler installed, so you won't be able to build this gem."
-end
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new

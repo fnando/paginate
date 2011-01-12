@@ -1,8 +1,8 @@
-# encoding: utf-8
-require "test_helper"
+# -*- encoding: utf-8 -*-
+require "spec_helper"
 
-class ActionViewTest < Test::Unit::TestCase
-  def setup
+describe "ActionView support" do
+  before do
     @request = OpenStruct.new
     @params = Hash.new
 
@@ -12,7 +12,7 @@ class ActionViewTest < Test::Unit::TestCase
     @view = ActionView::Base.new
     @view.controller = @controller
     @view.extend(Paginate::Helper)
-    @view.stubs(:request).returns(@request)
+    @view.stub :request => @request
 
     @helper = Object.new
     @helper.extend(Paginate::Helper)
@@ -25,98 +25,97 @@ class ActionViewTest < Test::Unit::TestCase
     I18n.locale = :en
   end
 
-  def test_display_pagination_list
+  it "should display pagination list" do
     @request.fullpath = "/some/path?page=1"
     html = render(:default, [])
 
-    assert_equal 1, html.css("ul.paginate").count
-    assert_equal 3, html.css("ul.paginate > li").count
+    html.css("ul.paginate").count.should == 1
+    html.css("ul.paginate > li").count.should == 3
   end
 
-  def test_disabled
+  it "should add .disabled class when have no items" do
     @request.fullpath = "/some/path"
     html = render(:default, [])
 
-    assert_not_nil html.css("ul.paginate.disabled").first
+    html.css("ul.paginate.disabled").first.should_not be_nil
   end
 
-  def test_display_next_page_link
+  it "should display next page link" do
     @request.fullpath = "/some/path?page=1"
     html = render(:default, Array.new(11))
     link = html.css("li.next-page > a").first
 
-    assert_not_nil link
-    assert_equal "/some/path?page=2", link["href"]
-    assert_equal "Next page", link.text
+    link.should_not be_nil
+    link["href"].should == "/some/path?page=2"
+    link.text.should == "Next page"
   end
 
-  def test_display_next_page_link_from_block
+  it "should display next page link using proc as url" do
     @request.fullpath = "/some/path?page=1"
     html = render(:block_as_url, Array.new(11))
     link = html.css("li.next-page > a").first
 
-    assert_not_nil link
-    assert_equal "/some/path/2", link["href"]
-    assert_equal "Next page", link.text
+    link.should_not be_nil
+    link["href"].should == "/some/path/2"
+    link.text.should == "Next page"
   end
 
-  def test_display_previous_page_link
-    $DEBUG = 1
+  it "should display previous page link" do
     @params[:page] = 2
     @request.fullpath = "/some/path?page=2"
     html = render(:default, Array.new(11))
     link = html.css("li.previous-page > a").first
-    $DEBUG = 0
-    assert_not_nil link
-    assert_equal "/some/path?page=1", link["href"]
-    assert_equal "Previous page", link.text
+
+    link.should_not be_nil
+    link["href"].should == "/some/path?page=1"
+    link.text.should == "Previous page"
   end
 
-  def test_display_next_page_as_disabled
+  it "should disable element when have no next page" do
     @request.fullpath = "/some/path?page=1"
     html = render(:default, Array.new(10))
     link = html.css("li.next-page > a").first
     span = html.css("li.next-page.disabled > span").first
 
-    assert_nil link
-    assert_not_nil span
-    assert_equal "Next page", span.text
+    link.should be_nil
+    span.should_not be_nil
+    span.text.should == "Next page"
   end
 
-  def test_display_previous_page_as_disabled
+  it "should disable element when have no previous page" do
     @request.fullpath = "/some/path?page=1"
     html = render(:default, Array.new(10))
     link = html.css("li.previous-page > a").first
     span = html.css("li.previous-page.disabled > span").first
 
-    assert_nil link
-    assert_not_nil span
-    assert_equal "Previous page", span.text
+    link.should be_nil
+    span.should_not be_nil
+    span.text.should == "Previous page"
   end
 
-  def test_display_current_page
+  it "should display current page" do
     @params[:page] = 10
     @request.fullpath = "/some/path?page=10"
     html = render(:default, [])
     span = html.css("li.page > span").first
 
-    assert_not_nil span
-    assert_equal "Page 10", span.text
+    span.should_not be_nil
+    span.text.should == "Page 10"
   end
 
-  def test_translate_strings
-    I18n.locale = :pt
+  it "should translate strings" do
+    I18n.locale = :"pt-BR"
 
     @params[:page] = 10
     @request.fullpath = "/some/path?page=10"
     html = render(:default, Array.new(11))
 
-    assert_equal "Página 10", html.css("li.page > span").text
-    assert_equal "Próxima página", html.css("li.next-page > a").text
-    assert_equal "Página anterior", html.css("li.previous-page > a").text
+    html.css("li.page > span").text.should == "Página 10"
+    html.css("li.next-page > a").text.should == "Próxima página"
+    html.css("li.previous-page > a").text.should == "Página anterior"
   end
 
-  def test_iterate
+  it "should skip the last item while iterating" do
     values = []
     items = Array.new(11) {|i| "User#{i}" }
 
@@ -124,10 +123,10 @@ class ActionViewTest < Test::Unit::TestCase
       values << item
     end
 
-    assert_equal items[0, 10], values
+    values.should == items[0, 10]
   end
 
-  def test_iterate_with_fewer_records
+  it "should iterate all items when have less records than size" do
     values = []
     items = Array.new(8) {|i| "User#{i}" }
 
@@ -135,10 +134,10 @@ class ActionViewTest < Test::Unit::TestCase
       values << item
     end
 
-    assert_equal items[0, 8], values
+    values.should == items[0, 8]
   end
 
-  def test_iterate_with_index
+  it "should yield iteration counter" do
     values = []
     indices = []
     items = Array.new(11) {|i| "User#{i}" }
@@ -148,8 +147,8 @@ class ActionViewTest < Test::Unit::TestCase
       indices << i
     end
 
-    assert_equal items[0, 10], values
-    assert_equal (0...10).to_a, indices
+    values.should == items[0, 10]
+    indices.should == (0...10).to_a
   end
 
   private
@@ -158,6 +157,6 @@ class ActionViewTest < Test::Unit::TestCase
   end
 
   def load_view(name)
-    File.read(File.dirname(__FILE__) + "/../resources/views/#{name}.erb")
+    File.read(File.dirname(__FILE__) + "/../support/views/#{name}.erb")
   end
 end
