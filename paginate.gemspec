@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Nando Vieira"]
   s.email       = ["fnando.vieira@gmail.com"]
-  s.homepage    = "http://rubygems.org/gems/kitabu"
+  s.homepage    = "http://rubygems.org/gems/paginate"
   s.summary     = "Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support."
   s.description = s.summary
 
