@@ -8,12 +8,17 @@ require "paginate/active_record"
 require "paginate/action_controller"
 
 module Paginate
-  def self.setup(&block)
+  def self.configure(&block)
     yield Config
+  end
+
+  def self.setup(&block)
+    warn "Paginate.setup is deprecated; use Paginate.configure instead."
+    configure(&block)
   end
 end
 
-Paginate.setup do |config|
+Paginate.configure do |config|
   config.param_name = :page
   config.size  = 10
 end

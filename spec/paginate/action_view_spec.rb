@@ -17,7 +17,7 @@ describe "ActionView support" do
     @helper = Object.new
     @helper.extend(Paginate::Helper)
 
-    Paginate.setup do |config|
+    Paginate.configure do |config|
       config.param_name = :page
       config.size  = 10
     end

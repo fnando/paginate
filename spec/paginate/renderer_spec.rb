@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Paginate::Renderer do
   before do
-    Paginate.setup do |config|
+    Paginate.configure do |config|
       config.param_name = :page
       config.size  = 10
     end

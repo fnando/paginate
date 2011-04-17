@@ -23,7 +23,7 @@ The url used on page links is taken from the current requested uri.
 
 You can set default values globally:
 
-  Paginate.setup do |config|
+  Paginate.configure do |config|
     config.size = 20
     config.param_name = :p
   end

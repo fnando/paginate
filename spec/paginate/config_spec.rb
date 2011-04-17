@@ -1,8 +1,8 @@
 require "spec_helper"
 
 describe Paginate::Config do
-  it "should yield configuration class" do
-    Paginate.setup do |config|
+  it "yields configuration class" do
+    Paginate.configure do |config|
       config.param_name = :p
       config.size  = 50
     end
@@ -11,8 +11,13 @@ describe Paginate::Config do
     Paginate::Config.size.should == 50
   end
 
-  it "should return configuration as hash" do
-    Paginate.setup do |config|
+  it "deprecates Paginate.setup method" do
+    Paginate.should_receive(:warn).once
+    Paginate.setup {}
+  end
+
+  it "returns configuration as hash" do
+    Paginate.configure do |config|
       config.param_name = :p
       config.size = 25
     end
