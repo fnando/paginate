@@ -9,6 +9,7 @@ describe Paginate::Config do
 
     Paginate::Config.param_name.should == :p
     Paginate::Config.size.should == 50
+    Paginate::Config.renderer.should == Paginate::Renderer::Basic
   end
 
   it "deprecates Paginate.setup method" do

@@ -29,7 +29,7 @@ module Paginate
       })
       options.merge!(:url => args.first) if args.any?
 
-      Paginate::Renderer.new(options).render
+      Paginate::Config.renderer.new(options).render
     end
 
     # In order to iterate the correct items you have to skip the last collection's item.
