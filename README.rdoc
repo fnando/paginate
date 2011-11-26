@@ -21,11 +21,12 @@ Then on your view:
 That's it! This is all you have to do! In this case we're using the default page size (which is 10).
 The url used on page links is taken from the current requested uri.
 
-You can set default values globally:
+You can set default values globally: (the follow values are defaults)
 
   Paginate.configure do |config|
-    config.size = 20
-    config.param_name = :p
+    config.size = 10
+    config.param_name = :page
+    config.renderer = Paginate::Renderer::Basic
   end
 
 More examples:
@@ -55,25 +56,73 @@ And if you're using some custom page size, you have to specify it as well.
   <% iterate @things, :size => 5 do |thing| %>
   <% end %>
 
-== I18n support
+== Renderer
 
-If you want to translate links, you have implement the following scopes:
+Paginate have only one available renderer (Paginate::Renderer::Basic) that can generate follow html, considering you are on first page and have a next page.
 
-  en:
-    paginate:
-      next: "Older"
-      previous: "Newer"
-      page: "Page {{page}}"
+  <ul class="paginate">
+    <li class="previous-page disabled"><span title="Previous">Previous</span></li>
+    <li class="page"><span>Page 1</span></li>
+    <li class="next-page"><a href="/current-resource?page=2" title="Next page">Next page</a></li>
+  </ul>
 
-== Styling
+=== Styling
 
-If you want something like Twitter Search use this CSS:
+So, use this CSS if you want something like Twitter Search:
 
   .paginate { overflow: hidden; }
   .paginate li { float: left; }
   .paginate li.previous-page:after { content: "«"; padding: 0 5px; }
   .paginate li.next-page:before { content: "»"; padding: 0 5px; }
   .paginate .disabled { display: none; }
+
+=== I18n support
+
+On basic default render, if you want to translate links, you have implement the following scopes:
+
+  en:
+    paginate:
+      next: "Older"
+      previous: "Newer"
+      page: "Page %{page}"
+
+
+=== You didn't like the html code gererated, you can create your own renderer
+
+To create a new renderer, implement a class inherited from `Paginate::Renderer::Base` and override `render` method returning a string with your html code as html safe
+
+e.g.: (very similar to default renderer)
+
+  class NewRenderer < Paginate::Renderer::Base
+    def render
+      page = options[:page]
+      html = String.new
+
+      # Open container
+      html += %[<ul class="paginate">]
+
+      # Previous page
+      if processor.previous_page?
+        html += %[<li><a href="#{current_url_for(page - 1)}">Previous</a></li>]
+      else
+        html += %[<li><span class="disabled">Previous</span></li>]
+      end
+
+      # Current page
+      html += %[<li><span class="current-page">Page #{page}</span></li>]
+
+      # Next page
+      if processor.next_page?
+        html += %[<li><a href="#{current_url_for(page + 1)}">Previous</a></li>]
+      else
+        html += %[<li><span class="disabled">Previous</span></li>]
+      end
+      # Close container
+      html += %[</ul>]
+
+      html.html_safe
+    end
+  end
 
 == License
 

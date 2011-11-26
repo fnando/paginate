@@ -3,6 +3,7 @@ module Paginate
     class << self
       attr_accessor :size
       attr_accessor :param_name
+      attr_accessor :renderer
     end
 
     def self.to_hash
