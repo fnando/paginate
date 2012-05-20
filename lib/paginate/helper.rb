@@ -25,7 +25,7 @@ module Paginate
         :collection => collection,
         :page => params[param_name],
         :param_name => param_name,
-        :fullpath => request.respond_to?(:fullpath) ? request.fullpath : request.request_uri
+        :fullpath => request.respond_to?(:fullpath) ? request.fullpath : request.url
       })
       options.merge!(:url => args.first) if args.any?
 
