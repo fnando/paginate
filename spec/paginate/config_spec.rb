@@ -7,13 +7,8 @@ describe Paginate::Config do
       config.size  = 50
     end
 
-    Paginate::Config.param_name.should == :p
-    Paginate::Config.size.should == 50
-  end
-
-  it "deprecates Paginate.setup method" do
-    Paginate.should_receive(:warn).once
-    Paginate.setup {}
+    expect(Paginate::Config.param_name).to eql(:p)
+    expect(Paginate::Config.size).to eql(50)
   end
 
   it "returns configuration as hash" do
@@ -23,6 +18,6 @@ describe Paginate::Config do
     end
 
     options = {:param_name => :p, :size => 25}
-    Paginate::Config.to_hash.should == options
+    expect(Paginate::Config.to_hash).to eql(options)
   end
 end

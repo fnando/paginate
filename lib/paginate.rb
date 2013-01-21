@@ -11,11 +11,6 @@ module Paginate
   def self.configure(&block)
     yield Config
   end
-
-  def self.setup(&block)
-    warn "Paginate.setup is deprecated; use Paginate.configure instead."
-    configure(&block)
-  end
 end
 
 Paginate.configure do |config|

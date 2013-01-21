@@ -6,7 +6,7 @@ Works only with <b>Rails 3+</b>.
 
 == Install
 
-  sudo gem install paginate
+  gem install paginate
 
 == Usage
 
@@ -40,7 +40,13 @@ More examples:
   <%= paginate @things, "/some/path" %>
   <%= paginate @things, :param_name => :p %>
 
-To iterate the collection, you must use a helper called <tt>iterate</tt>. This is required cause we're always considering SIZE + 1, so if you use the regular +each+ you end up rendering one additional item.
+To render the collection, you must use the <tt>render</tt> helper, providing the <tt>:paginate => true</tt> option. This is required cause we're always considering SIZE + 1, so if you use the regular +each+ or don't pass this option, you end up rendering one additional item.
+
+  <%= render @things, :paginate => true %>
+  <%= render @things, :paginate => true, :size => 5 %>
+  <%= render "thing", :collection => @things, :paginate => true, :size => 5 %>
+
+If you want to iterate and do something special, you can use the +iterate+ helper, which also accepts the +:size+ option.
 
   <% iterate @things do |thing| %>
   <% end %>

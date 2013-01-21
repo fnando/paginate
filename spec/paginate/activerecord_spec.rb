@@ -1,18 +1,24 @@
 require "spec_helper"
 
 describe Thing do
-  let!(:things) { Array.new(15) {|i| Thing.create!(:name => "Thing #{i}") } }
+  let!(:things) { Array.new(15) {|i| Thing.create!(:name => "THING") } }
   before { Paginate::Config.size = 10 }
 
-  specify { Thing.should respond_to(:paginate) }
+  it { expect(Thing).to respond_to(:paginate) }
 
-  it "should use default options" do
-    Thing.paginate.all.should == Thing.all(:limit => 11)
-    Thing.paginate(:page => 2).all.should == Thing.all(:limit => 11, :offset => 10)
+  it "uses default options" do
+    items = Thing.limit(11).all
+    expect(Thing.paginate.all).to eql(items)
+
+    items = Thing.limit(11).offset(10).all
+    expect(Thing.paginate(:page => 2).all).to eql(items)
   end
 
-  it "should use custom options" do
-    Thing.paginate(:size => 5).should == Thing.all(:limit => 6)
-    Thing.paginate(:size => 5, :page => 2).should == Thing.all(:limit => 6, :offset => 5)
+  it "uses custom options" do
+    items = Thing.limit(6).all
+    expect(Thing.paginate(:size => 5).all).to eql(items)
+
+    items = Thing.limit(6).offset(5).all
+    expect(Thing.paginate(:size => 5, :page => 2).all).to eql(items)
   end
 end

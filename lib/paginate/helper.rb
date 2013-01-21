@@ -32,6 +32,30 @@ module Paginate
       Paginate::Renderer.new(options).render
     end
 
+    # Override the original render method, so we can strip the additional
+    # item from the collection, without changing your workflow with the
+    # iterate "always felt dirty" method.
+    #
+    # To render a paginated set, just pass the <tt>:paginate => true</tt> option.
+    # You can also provide a custom size with <tt>:size => number</tt>
+    #
+    #   <%= render @posts, :paginate => true %>
+    #   <%= render @pots, :paginate => true, :size => 20 %>
+    #   <%= render "post", :collection => @posts, :paginate => true, :size => 20 %>
+    #
+    def render(*args, &block)
+      options    = args.extract_options!
+      paginated  = options.delete(:paginate)
+      size       = options.delete(:size) { Paginate::Config.size }
+
+      return super(*[*args, options], &block) unless paginated
+
+      collection = options.delete(:collection) { args.shift }
+      collection = collection[0, size]
+
+      super(collection, *[*args, options], &block)
+    end
+
     # In order to iterate the correct items you have to skip the last collection's item.
     # We added this helper to automatically skip the last item only if there's a next page.
     #
@@ -59,12 +83,13 @@ module Paginate
     #
     def iterate(collection, options = {}, &block)
       options.reverse_merge!(:size => Paginate::Config.size)
+      yield_index = block.arity == 2
 
       collection[0, options[:size]].each_with_index do |item, i|
-        if block.arity == 1
-          yield item
-        else
+        if yield_index
           yield item, i
+        else
+          yield item
         end
       end
     end
