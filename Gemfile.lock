@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    paginate (1.0.1)
+    paginate (2.0.0)
 
 GEM
   remote: http://rubygems.org/
