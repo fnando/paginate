@@ -1,8 +1,11 @@
 module Paginate
   class Base
     attr_accessor :options
+    attr_accessor :scope
 
-    def initialize(options = {})
+    def initialize(scope, options = {})
+      @scope = scope
+
       if options.kind_of?(Hash)
         @options = options
       else
@@ -38,6 +41,12 @@ module Paginate
 
     def to_options
       { :limit => limit, :offset => offset }
+    end
+
+    def to_scope
+      scope
+        .limit(limit)
+        .offset(offset)
     end
   end
 end

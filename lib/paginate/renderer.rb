@@ -6,11 +6,11 @@ module Paginate
     def initialize(options)
       @current_page = [options[:page].to_i, 1].max
       options.reverse_merge!(Paginate::Config.to_hash)
-      @options = options.merge(:page => current_page)
+      @options = options.merge(page: current_page)
     end
 
     def processor
-      @processor ||= Paginate::Base.new(options)
+      @processor ||= Paginate::Base.new(nil, options)
     end
 
     def url_for(page)

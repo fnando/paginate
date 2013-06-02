@@ -4,6 +4,7 @@ require "paginate/base"
 require "paginate/config"
 require "paginate/helper"
 require "paginate/renderer"
+require "paginate/extension"
 require "paginate/active_record"
 require "paginate/action_controller"
 

@@ -46,21 +46,6 @@ To render the collection, you must use the <tt>render</tt> helper, providing the
   <%= render @things, :paginate => true, :size => 5 %>
   <%= render "thing", :collection => @things, :paginate => true, :size => 5 %>
 
-If you want to iterate and do something special, you can use the +iterate+ helper, which also accepts the +:size+ option.
-
-  <% iterate @things do |thing| %>
-  <% end %>
-
-If you want the iteration index, you can expect it as a second block parameter.
-
-  <% iterate @things do |thing, i| %>
-  <% end %>
-
-And if you're using some custom page size, you have to specify it as well.
-
-  <% iterate @things, :size => 5 do |thing| %>
-  <% end %>
-
 == I18n support
 
 If you want to translate links, you have implement the following scopes:

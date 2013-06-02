@@ -22,13 +22,13 @@ module Paginate
       options = args.extract_options!
       param_name = [options[:param_name], Paginate::Config.param_name, :page].compact.first
       options.merge!({
-        :collection => collection,
-        :page => params[param_name],
-        :param_name => param_name,
-        :fullpath => request.respond_to?(:fullpath) ? request.fullpath : request.request_uri
+        collection: collection,
+        page: params[param_name],
+        param_name: param_name,
+        fullpath: request.fullpath
       })
-      options.merge!(:url => args.first) if args.any?
 
+      options.merge!(url: args.first) if args.any?
       Paginate::Renderer.new(options).render
     end
 
@@ -49,49 +49,10 @@ module Paginate
       size       = options.delete(:size) { Paginate::Config.size }
 
       return super(*[*args, options], &block) unless paginated
-
       collection = options.delete(:collection) { args.shift }
       collection = collection[0, size]
 
       super(collection, *[*args, options], &block)
-    end
-
-    # In order to iterate the correct items you have to skip the last collection's item.
-    # We added this helper to automatically skip the last item only if there's a next page.
-    #
-    #   <% iterate @items do |item| %>
-    #   <% end %>
-    #
-    # If you want to grab the iteration index as well just expect it as a block parameter.
-    #
-    #   <% iterate @items do |item, i|
-    #   <% end %>
-    #
-    # If you set a custom size while fetching items from database, you need to inform it while iterating.
-    #
-    #   @items = Item.paginate(:page => 1, :size => 5)
-    #
-    # Then in your view:
-    #
-    #   <% iterate @items, :size => 5 do |item| %>
-    #   <% end %>
-    #
-    # You can receive the iteration counter by expecting two arguments.
-    #
-    #   <% iterate @items do |item, i| do %>
-    #   <% end %>
-    #
-    def iterate(collection, options = {}, &block)
-      options.reverse_merge!(:size => Paginate::Config.size)
-      yield_index = block.arity == 2
-
-      collection[0, options[:size]].each_with_index do |item, i|
-        if yield_index
-          yield item, i
-        else
-          yield item
-        end
-      end
     end
   end
 end

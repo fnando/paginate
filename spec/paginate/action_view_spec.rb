@@ -126,46 +126,11 @@ describe "ActionView support" do
     expect(html.css("li.previous-page > a").text).to eql("Página anterior")
   end
 
-  it "skips the last item while iterating" do
-    values = []
-    items = Array.new(11) {|i| "User#{i}" }
-
-    @helper.iterate items do |item|
-      values << item
-    end
-
-    expect(values).to eql(items[0, 10])
-  end
-
-  it "iterates all items when have less records than size" do
-    values = []
-    items = Array.new(8) {|i| "User#{i}" }
-
-    @helper.iterate items do |item|
-      values << item
-    end
-
-    expect(values).to eql(items[0, 8])
-  end
-
-  it "yields iteration counter" do
-    values = []
-    indices = []
-    items = Array.new(11) {|i| "User#{i}" }
-
-    @helper.iterate items do |item, i|
-      values << item
-      indices << i
-    end
-
-    expect(values).to eql(items[0, 10])
-    expect(indices).to eql([*0...10])
-  end
-
   private
   def render(view_name, items)
+    @controller.params = @params
     view_info = Struct.new(:to_partial_path).new("#{view_name}")
-    Nokogiri @view.render(view_info, :items => items)
+    Nokogiri @view.render(view_info, items: items)
   end
 
   def load_view(name)

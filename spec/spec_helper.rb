@@ -1,22 +1,24 @@
-require "bundler"
-Bundler.setup
-Bundler.require(:default, :development)
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
+require "bundler/setup"
 
+require "logger"
 require "rspec"
 require "nokogiri"
 require "ostruct"
 require "sqlite3"
 require "test_notifier/runner/rspec"
+require "rails"
 
+require "active_record"
 require "active_support/all"
 require "action_view"
 require "action_controller"
-
-ActiveRecord::Base
-  .establish_connection(:adapter => "sqlite3", :database => ":memory:")
-Rails = OpenStruct.new(:version => ActiveRecord::VERSION::STRING)
-
 require "paginate"
+
+ActiveRecord::Base.establish_connection(
+  adapter: "sqlite3",
+  database: ":memory:"
+)
 
 load "spec/schema.rb"
 

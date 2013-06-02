@@ -20,9 +20,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "nokogiri"
   s.add_development_dependency "test_notifier"
   s.add_development_dependency "sqlite3-ruby"
-  s.add_development_dependency "activesupport"
-  s.add_development_dependency "activerecord"
-  s.add_development_dependency "actionpack"
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "rails"
+  s.add_development_dependency "rspec", "~> 2.14.0.rc1"
   s.add_development_dependency "pry-meta"
 end
