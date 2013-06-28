@@ -23,7 +23,7 @@ You can use Paginate with or without ActiveRecord. Let's try a simple array pagi
 
 Then on your view:
 
-```ruby
+```erb
 <%= paginate @things %>
 ```
 
@@ -46,7 +46,9 @@ Post.paginate(1)                                # page 1 from Post model
 Post.paginate(page: 1)                          # page 1 from Post model
 Post.paginate(page: 1, size: 5)                 # page 1 from Post model with custom size
 @user.things.paginate(:page => params[:page])   # paginate association
+```
 
+```erb
 <%= paginate @things, size: 5 %>
 <%= paginate @things, url: -> page { things_path(:page => page) } %>
 <%= paginate @things, "/some/path" %>
@@ -55,7 +57,7 @@ Post.paginate(page: 1, size: 5)                 # page 1 from Post model with cu
 
 To render the collection, you must use the <tt>render</tt> helper, providing the <tt>:paginate => true</tt> option. This is required cause we're always considering SIZE + 1, so if you use the regular +each+ or don't pass this option, you end up rendering one additional item.
 
-```ruby
+```erb
 <%= render @things, paginate: true %>
 <%= render @things, paginate: true, size: 5 %>
 <%= render "thing", collection: @things, paginate: true, size: 5 %>
