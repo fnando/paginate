@@ -1,5 +1,7 @@
 # Paginate
 
+[![Build Status](https://travis-ci.org/fnando/paginate.png)](https://travis-ci.org/fnando/paginate)
+
 Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support.
 
 Works only with **Rails 3+**.

@@ -6,11 +6,9 @@ RSpec::Core::RakeTask.new
 
 desc "Run specs against all gemfiles"
 task "spec:all" do
-  %w[Gemfile gemfiles/rails4.gemfile].each do |gemfile|
+  %w[Gemfile gemfiles/rails3.gemfile].each do |gemfile|
     ENV["BUNDLE_GEMFILE"] = gemfile
     Rake::Task["spec"].reenable
     Rake::Task["spec"].invoke
   end
 end
-
-task :default => "spec:all"

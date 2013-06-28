@@ -126,7 +126,7 @@ DEPENDENCIES
   nokogiri
   paginate!
   pry-meta
-  rails (~> 3.2)
+  rails (~> 3.2.13)
   rspec (~> 2.14.0.rc1)
   sqlite3-ruby
   test_notifier
