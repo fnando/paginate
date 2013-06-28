@@ -15,7 +15,7 @@ describe "ActionView support" do
     @view.lookup_context.prefixes << "application"
     @view.controller = @controller
     @view.extend(Paginate::Helper)
-    @view.stub :request => @request
+    @view.stub request: @request
 
     @helper = Object.new
     @helper.extend(Paginate::Helper)
@@ -28,102 +28,12 @@ describe "ActionView support" do
     I18n.locale = :en
   end
 
-  it "displays pagination list" do
-    @request.fullpath = "/some/path?page=1"
-    html = render(:default, [])
-
-    expect(html.css("ul.paginate").count).to eql(1)
-    expect(html.css("ul.paginate > li").count).to eql(3)
-  end
-
-  it "adds .disabled class when have no items" do
-    @request.fullpath = "/some/path"
-    html = render(:default, [])
-
-    expect(html.css("ul.paginate.disabled").first).to be
-  end
-
-  it "displays next page link" do
-    @request.fullpath = "/some/path?page=1"
-    html = render(:default, Array.new(11))
-    link = html.css("li.next-page > a").first
-
-    expect(link).to be
-    expect(link["href"]).to eql("/some/path?page=2")
-    expect(link.text).to eql("Next page")
-  end
-
-  it "displays next page link using proc as url" do
-    @request.fullpath = "/some/path?page=1"
-    html = render(:block_as_url, Array.new(11))
-    link = html.css("li.next-page > a").first
-
-    expect(link).to be
-    expect(link["href"]).to eql("/some/path/2")
-    expect(link.text).to eql("Next page")
-  end
-
-  it "displays previous page link" do
-    @params[:page] = 2
-    @request.fullpath = "/some/path?page=2"
-    html = render(:default, Array.new(11))
-    link = html.css("li.previous-page > a").first
-
-    expect(link).to be
-    expect(link["href"]).to eql("/some/path?page=1")
-    expect(link.text).to eql("Previous page")
-  end
-
-  it "disables element when have no next page" do
-    @request.fullpath = "/some/path?page=1"
-    html = render(:default, Array.new(10))
-    link = html.css("li.next-page > a").first
-    span = html.css("li.next-page.disabled > span").first
-
-    expect(link).not_to be
-    expect(span).to be
-    expect(span.text).to eql("Next page")
-  end
-
-  it "disables element when have no previous page" do
-    @request.fullpath = "/some/path?page=1"
-    html = render(:default, Array.new(10))
-    link = html.css("li.previous-page > a").first
-    span = html.css("li.previous-page.disabled > span").first
-
-    expect(link).not_to be
-    expect(span).to be
-    expect(span.text).to eql("Previous page")
-  end
-
-  it "displays current page" do
-    @params[:page] = 10
-    @request.fullpath = "/some/path?page=10"
-    html = render(:default, [])
-    span = html.css("li.page > span").first
-
-    expect(span).to be
-    expect(span.text).to eql("Page 10")
-  end
-
   it "overrides render method" do
     items = [*1..11].map do |i|
       OpenStruct.new(:to_partial_path => "number", :value => i)
     end
 
     html = render(:render, items)
-  end
-
-  it "translates strings" do
-    I18n.locale = :"pt-BR"
-
-    @params[:page] = 10
-    @request.fullpath = "/some/path?page=10"
-    html = render(:default, Array.new(11))
-
-    expect(html.css("li.page > span").text).to eql("Página 10")
-    expect(html.css("li.next-page > a").text).to eql("Próxima página")
-    expect(html.css("li.previous-page > a").text).to eql("Página anterior")
   end
 
   private

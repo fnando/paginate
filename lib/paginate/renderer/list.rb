@@ -10,7 +10,7 @@ module Paginate
       end
 
       def page_label
-        I18n.t("paginate.page", options)
+        I18n.t("paginate.page", page: processor.page)
       end
 
       def render

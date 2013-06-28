@@ -24,7 +24,7 @@ module Paginate
     end
 
     def previous_page?
-      options[:page] > 1
+      page > 1
     end
 
     def page

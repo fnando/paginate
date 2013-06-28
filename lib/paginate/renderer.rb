@@ -1,27 +1,36 @@
 module Paginate
   module Renderer
     class Base
-      attr_reader :options, :current_page, :view_context
+      # Set the pagination options.
+      attr_reader :options
+
+      # Set the view context. You can use this object
+      # to call view and url helpers.
+      attr_reader :view_context
+
+      # Set the object with defines all pagination methods
+      # like `Paginate::Base#next_page?`.
+      attr_reader :processor
 
       def initialize(view_context, options)
         @view_context = view_context
-        @current_page = [options[:page].to_i, 1].max
-        options.reverse_merge!(Paginate::Config.to_hash)
-        @options = options.merge(page: current_page)
+        @options = options.reverse_merge(Paginate::Config.to_hash)
+        @processor = Paginate::Base.new(nil, options)
       end
 
-      def processor
-        @processor ||= Paginate::Base.new(nil, options)
-      end
-
+      # Return the URL for previous page.
       def previous_url
-        url_for(options[:page] - 1)
+        url_for(processor.page - 1)
       end
 
+      # Return the URL for next page.
       def next_url
-        url_for(options[:page] + 1)
+        url_for(processor.page + 1)
       end
 
+      # Compute the URL for a given page.
+      # It will keep track of all query string and replace the
+      # page parameter with the specified `page`.
       def url_for(page)
         url = options[:url] || options[:fullpath]
 
