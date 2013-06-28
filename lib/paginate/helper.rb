@@ -42,7 +42,7 @@ module Paginate
       })
 
       options.merge!(url: args.first) if args.any?
-      renderer.new(options).render
+      renderer.new(self, options).render
     end
 
     # Override the original render method, so we can strip the additional

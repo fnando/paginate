@@ -9,7 +9,7 @@ module Paginate
       if options.kind_of?(Hash)
         @options = options
       else
-        @options = {:page => options.to_i}
+        @options = {page: options.to_i}
       end
 
       @options.reverse_merge!(Paginate::Config.to_hash)
@@ -40,7 +40,7 @@ module Paginate
     end
 
     def to_options
-      { :limit => limit, :offset => offset }
+      {limit: limit, offset: offset}
     end
 
     def to_scope

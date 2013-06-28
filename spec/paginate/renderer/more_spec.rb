@@ -9,10 +9,10 @@ describe Paginate::Renderer::More do
 
     I18n.locale = :en
 
-    @renderer = Paginate::Renderer::More.new({
-      :collection => Array.new(11),
-      :page => 1,
-      :fullpath => "/some/path"
+    @renderer = Paginate::Renderer::More.new(nil, {
+      collection: Array.new(11),
+      page: 1,
+      fullpath: "/some/path"
     })
   end
 

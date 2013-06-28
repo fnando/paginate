@@ -1,9 +1,10 @@
 module Paginate
   module Renderer
     class Base
-      attr_accessor :options, :current_page
+      attr_reader :options, :current_page, :view_context
 
-      def initialize(options)
+      def initialize(view_context, options)
+        @view_context = view_context
         @current_page = [options[:page].to_i, 1].max
         options.reverse_merge!(Paginate::Config.to_hash)
         @options = options.merge(page: current_page)
