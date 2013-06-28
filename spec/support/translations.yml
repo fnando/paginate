@@ -3,9 +3,11 @@ en:
     next: "Next page"
     previous: "Previous page"
     page: "Page %{page}"
+    more: "Load more"
 
 pt-BR:
   paginate:
     next: "Próxima página"
     previous: "Página anterior"
     page: "Página %{page}"
+    more: "Carregar mais"

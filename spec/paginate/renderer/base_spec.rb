@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Paginate::Renderer do
+describe Paginate::Renderer::Base do
   before do
     Paginate.configure do |config|
       config.param_name = :page
@@ -9,14 +9,12 @@ describe Paginate::Renderer do
 
     I18n.locale = :en
 
-    @renderer = Paginate::Renderer.new({
+    @renderer = Paginate::Renderer::Base.new({
       :collection => Array.new(11),
       :page => 1,
       :fullpath => "/some/path"
     })
   end
-
-  specify { @renderer.render.should be_html_safe }
 
   it "parses simple url" do
     @renderer.options[:url] = "/some/path"

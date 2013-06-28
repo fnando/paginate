@@ -12,6 +12,7 @@ module Paginate
     # * <tt>:id</tt>: the HTML id that will identify the pagination block.
     # * <tt>:size</tt>: the page size. When not specified will default to <tt>Paginate::Config.size</tt>.
     # * <tt>:param_name</tt>: the page param name. When not specified will default to <tt>Paginate::Config.param_name</tt>.
+    # * <tt>:renderer</tt>: A class that will be used to render the pagination. When not specified will default to <tt>Paginate::Renderer::List</tt>.
     #
     #   <%= paginate @posts, proc {|page| posts_path(page) }
     #   <%= paginate @posts, :url => proc {|page| posts_path(page) }
@@ -20,7 +21,19 @@ module Paginate
     #
     def paginate(collection, *args)
       options = args.extract_options!
-      param_name = [options[:param_name], Paginate::Config.param_name, :page].compact.first
+
+      param_name = [
+        options[:param_name],
+        Paginate::Config.param_name,
+        :page
+      ].compact.first
+
+      renderer = [
+        options[:renderer],
+        Paginate::Config.renderer,
+        Paginate::Renderer::List
+      ].compact.first
+
       options.merge!({
         collection: collection,
         page: params[param_name],
@@ -29,7 +42,7 @@ module Paginate
       })
 
       options.merge!(url: args.first) if args.any?
-      Paginate::Renderer.new(options).render
+      renderer.new(options).render
     end
 
     # Override the original render method, so we can strip the additional

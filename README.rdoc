@@ -55,6 +55,7 @@ If you want to translate links, you have implement the following scopes:
       next: "Older"
       previous: "Newer"
       page: "Page {{page}}"
+      more: "Load more"
 
 == Styling
 
