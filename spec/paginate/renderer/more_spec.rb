@@ -21,7 +21,7 @@ describe Paginate::Renderer::More do
 
   context "when have no next page" do
     it "returns nil" do
-      @renderer.processor.stub :next_page?
+      allow(@renderer.processor).to receive :next_page?
       expect(@renderer.render).to be_nil
     end
   end

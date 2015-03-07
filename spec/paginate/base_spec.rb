@@ -51,20 +51,20 @@ describe Paginate::Base do
   end
 
   specify {
-    Paginate::Base.new(scope, page: 1, size: 5, collection: Array.new(6))
-      .should have_next_page
+    expect(Paginate::Base.new(scope, page: 1, size: 5, collection: Array.new(6)))
+      .to have_next_page
   }
 
   specify {
-    Paginate::Base.new(scope, page: 1, size: 5, collection: Array.new(5))
-      .should_not have_next_page
+    expect(Paginate::Base.new(scope, page: 1, size: 5, collection: Array.new(5)))
+      .not_to have_next_page
   }
 
   specify {
-    Paginate::Base.new(scope, page: 2).should have_previous_page
+    expect(Paginate::Base.new(scope, page: 2)).to have_previous_page
   }
 
   specify {
-    Paginate::Base.new(scope, page: 1).should_not have_previous_page
+    expect(Paginate::Base.new(scope, page: 1)).not_to have_previous_page
   }
 end

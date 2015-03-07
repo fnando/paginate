@@ -15,7 +15,7 @@ describe "ActionView support" do
     @view.lookup_context.prefixes << "application"
     @view.controller = @controller
     @view.extend(Paginate::Helper)
-    @view.stub request: @request
+    allow(@view).to receive_messages request: @request
 
     @helper = Object.new
     @helper.extend(Paginate::Helper)

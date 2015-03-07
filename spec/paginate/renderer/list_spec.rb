@@ -23,7 +23,7 @@ describe Paginate::Renderer::List do
   it { expect(@renderer.page_label).to eql(I18n.t("paginate.page", page: 1)) }
 
   it "displays current page" do
-    @renderer.processor.stub page: 1234
+    allow(@renderer.processor).to receive_messages page: 1234
 
     html = Nokogiri::HTML(@renderer.render)
     span = html.css("li.page > span").first
@@ -34,7 +34,7 @@ describe Paginate::Renderer::List do
 
   it "translates strings" do
     I18n.locale = "pt-BR"
-    @renderer.processor.stub page: 10
+    allow(@renderer.processor).to receive_messages page: 10
 
     html = Nokogiri::HTML(@renderer.render)
 
@@ -44,7 +44,7 @@ describe Paginate::Renderer::List do
   end
 
   it "displays previous page link" do
-    @renderer.processor.stub page: 2
+    allow(@renderer.processor).to receive_messages page: 2
 
     html = Nokogiri::HTML(@renderer.render)
     link = html.css("li.previous-page > a").first
@@ -55,7 +55,7 @@ describe Paginate::Renderer::List do
   end
 
   it "displays next page link" do
-    @renderer.processor.stub page: 1
+    allow(@renderer.processor).to receive_messages page: 1
 
     html = Nokogiri::HTML(@renderer.render)
     link = html.css("li.next-page > a").first
@@ -74,7 +74,7 @@ describe Paginate::Renderer::List do
 
   context "when have no items" do
     it "adds .disabled class to the list" do
-      @renderer.processor.stub next_page?: false, previous_page?: false
+      allow(@renderer.processor).to receive_messages next_page?: false, previous_page?: false
 
       html = Nokogiri::HTML(@renderer.render)
       expect(html.css("ul.paginate.disabled").first).to be
@@ -83,7 +83,7 @@ describe Paginate::Renderer::List do
 
   context "when have no next page" do
     it "disables the element" do
-      @renderer.processor.stub :next_page?
+      allow(@renderer.processor).to receive :next_page?
 
       html = Nokogiri::HTML(@renderer.render)
       link = html.css("li.next-page > a").first
@@ -97,7 +97,7 @@ describe Paginate::Renderer::List do
 
   context "when no previous page" do
     it "disables the element" do
-      @renderer.processor.stub :previous_page?
+      allow(@renderer.processor).to receive :previous_page?
 
       html = Nokogiri::HTML(@renderer.render)
       link = html.css("li.previous-page > a").first
