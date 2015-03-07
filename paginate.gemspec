@@ -1,6 +1,4 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "paginate/version"
+require "./lib/paginate/version"
 
 Gem::Specification.new do |s|
   s.name        = "paginate"
