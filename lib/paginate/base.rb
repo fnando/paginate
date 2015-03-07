@@ -12,7 +12,7 @@ module Paginate
         @options = {page: options.to_i}
       end
 
-      @options.reverse_merge!(Paginate::Config.to_hash)
+      @options.reverse_merge!(Paginate.configuration.to_hash)
     end
 
     def collection_size

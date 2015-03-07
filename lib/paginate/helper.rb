@@ -10,8 +10,8 @@ module Paginate
     #
     # * <tt>:url</tt>: the URL which page numbers will be appended to. Can be proc or string.
     # * <tt>:id</tt>: the HTML id that will identify the pagination block.
-    # * <tt>:size</tt>: the page size. When not specified will default to <tt>Paginate::Config.size</tt>.
-    # * <tt>:param_name</tt>: the page param name. When not specified will default to <tt>Paginate::Config.param_name</tt>.
+    # * <tt>:size</tt>: the page size. When not specified will default to <tt>Paginate.configuration.size</tt>.
+    # * <tt>:param_name</tt>: the page param name. When not specified will default to <tt>Paginate.configuration.param_name</tt>.
     # * <tt>:renderer</tt>: A class that will be used to render the pagination. When not specified will default to <tt>Paginate::Renderer::List</tt>.
     #
     #   <%= paginate @posts, proc {|page| posts_path(page) }
@@ -24,13 +24,13 @@ module Paginate
 
       param_name = [
         options[:param_name],
-        Paginate::Config.param_name,
+        Paginate.configuration.param_name,
         :page
       ].compact.first
 
       renderer = [
         options[:renderer],
-        Paginate::Config.renderer,
+        Paginate.configuration.renderer,
         Paginate::Renderer::List
       ].compact.first
 
@@ -59,7 +59,7 @@ module Paginate
     def render(*args, &block)
       options    = args.extract_options!
       paginated  = options.delete(:paginate)
-      size       = options.delete(:size) { Paginate::Config.size }
+      size       = options.delete(:size) { Paginate.configuration.size }
 
       return super(*[*args, options], &block) unless paginated
       collection = options.delete(:collection) { args.shift }

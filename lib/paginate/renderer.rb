@@ -14,7 +14,7 @@ module Paginate
 
       def initialize(view_context, options)
         @view_context = view_context
-        @options = options.reverse_merge(Paginate::Config.to_hash)
+        @options = options.reverse_merge(Paginate.configuration.to_hash)
         @processor = Paginate::Base.new(nil, options)
       end
 

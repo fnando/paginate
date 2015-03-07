@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Thing do
   let!(:things) { Array.new(15) {|i| Thing.create!(name: "THING") } }
-  before { Paginate::Config.size = 10 }
+  before { Paginate.configuration.size = 10 }
 
   it { expect(Thing).to respond_to(:paginate) }
 

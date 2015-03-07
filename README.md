@@ -117,7 +117,7 @@ module Paginate
 end
 ```
 
-You can specify the default renderer by setting the `Pagination::Config.renderer` option.
+You can specify the default renderer by setting the `Pagination.configuration.renderer` option.
 
 ```ruby
 Paginate.configure do |config|

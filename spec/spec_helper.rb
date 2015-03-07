@@ -24,3 +24,9 @@ load "spec/schema.rb"
 
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|file| require file}
 I18n.load_path << File.dirname(__FILE__) + "/support/translations.yml"
+
+RSpec.configure do |config|
+  config.before(:each) do
+    Paginate.configuration = Paginate::Configuration.new
+  end
+end

@@ -20,22 +20,22 @@ describe Paginate::Base do
   end
 
   it "returns limit from configuration" do
-    Paginate::Config.size = 25
+    Paginate.configuration.size = 25
     expect(Paginate::Base.new(scope).limit).to eql(26)
   end
 
   it "returns limit from options" do
-    Paginate::Config.size = 25
+    Paginate.configuration.size = 25
     expect(Paginate::Base.new(scope, size: 13).limit).to eql(14)
   end
 
   it "returns default limit" do
-    Paginate::Config.size = nil
+    Paginate.configuration.size = nil
     expect(Paginate::Base.new(scope).limit).to eql(11)
   end
 
   it "returns offset from configuration" do
-    Paginate::Config.size = 15
+    Paginate.configuration.size = 15
     expect(Paginate::Base.new(scope, page: 2).offset).to eql(15)
   end
 
