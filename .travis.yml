@@ -2,15 +2,14 @@ sudo: false
 cache: bundler
 language: ruby
 rvm:
-  - '2.0'
-  - '2.1'
-  - '2.2'
-
+  - '2.3.0'
 gemfile:
-  - gemfiles/rails_3_2.gemfile
-  - gemfiles/rails_4_0.gemfile
-  - gemfiles/rails_4_1.gemfile
   - gemfiles/rails_4_2.gemfile
+  - gemfiles/rails_5_0.gemfile
   - Gemfile
-
-script: "bundle exec rspec"
+script: bundle exec rake
+notifications:
+  email: false
+env:
+  global:
+    secure: u2w8v0Fwk5ieq+3wWsPZfNpE57oWgeJexeo0/R0kZGzuUjkLtxhG/onvNRirW+8spVP8onAtsN5BqVfAyVp0rPwwRGjPrBNeYLkVQB9+RnXtwbuCxzKtNOqegtvg43YcGbBjlN4Aai0Xjf0rA+avc7OQ3C4ZFbhLgUyIAn9hTeE=

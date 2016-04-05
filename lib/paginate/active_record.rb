@@ -1,12 +1,16 @@
+module Paginate
+  module ActiveRecordExt
+    def inherited(subclass)
+      super(subclass)
+      subclass.send(:include, Paginate::Extension) if subclass.superclass == ::ActiveRecord::Base
+    end
+  end
+end
+
 module ActiveRecord
   class Base
     class << self
-      def inherited_with_paginate(subclass)
-        inherited_without_paginate subclass
-        subclass.send(:include, Paginate::Extension) if subclass.superclass == ActiveRecord::Base
-      end
-
-      alias_method_chain :inherited, :paginate
+      prepend Paginate::ActiveRecordExt
     end
 
     # Extend existing models

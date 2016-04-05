@@ -1,8 +1,7 @@
-# -*- encoding: utf-8 -*-
-require "spec_helper"
+require "test_helper"
 
-describe "ActionView support" do
-  before do
+class ActionviewTest < Minitest::Test
+  setup do
     @request = OpenStruct.new
     @params = Hash.new
 
@@ -15,7 +14,7 @@ describe "ActionView support" do
     @view.lookup_context.prefixes << "application"
     @view.controller = @controller
     @view.extend(Paginate::Helper)
-    allow(@view).to receive_messages request: @request
+    @view.stubs(:request).returns(@request)
 
     @helper = Object.new
     @helper.extend(Paginate::Helper)
@@ -28,19 +27,23 @@ describe "ActionView support" do
     I18n.locale = :en
   end
 
-  it "overrides render method" do
+  test "overrides render method" do
     items = [*1..11].map do |i|
       OpenStruct.new(:to_partial_path => "number", :value => i)
     end
 
     html = render(:render, items)
+
+    assert 10, html.css("p.number").size
+    assert_equal ("1".."10").to_a, html.css("p.number").map(&:text)
   end
 
   private
+
   def render(view_name, items)
     @controller.params = @params
     view_info = Struct.new(:to_partial_path).new("#{view_name}")
-    Nokogiri @view.render(view_info, items: items)
+    Nokogiri::HTML(@view.render(view_info, items: items))
   end
 
   def load_view(name)

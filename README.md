@@ -2,10 +2,11 @@
 
 [![Build Status](https://travis-ci.org/fnando/paginate.png)](https://travis-ci.org/fnando/paginate)
 [![CodeClimate](https://codeclimate.com/github/fnando/paginate.png)](https://codeclimate.com/github/fnando/paginate/)
+[![Test Coverage](https://codeclimate.com/github/fnando/paginate/badges/coverage.svg)](https://codeclimate.com/github/fnando/paginate/coverage)
+[![Gem](https://img.shields.io/gem/v/paginate.svg)](https://rubygems.org/gems/paginate)
+[![Gem](https://img.shields.io/gem/dt/paginate.svg)](https://rubygems.org/gems/paginate)
 
 Paginate collections using SIZE+1 to determine if there is a next page. Includes ActiveRecord and ActionView support.
-
-Works only with **Rails 3+**.
 
 ## Install
 
@@ -72,7 +73,7 @@ en:
   paginate:
     next: "Older"
     previous: "Newer"
-    page: "Page {{page}}"
+    page: "Page %{page}"
     more: "Load more"
 ```
 
@@ -135,9 +136,7 @@ You can also specify while calling the `paginate` helper.
 
 (The MIT License)
 
-Copyright © 2010:
-
-* Nando Vieira • <http://simplesideias.com.br>
+Copyright - Nando Vieira • <http://nandovieira.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
